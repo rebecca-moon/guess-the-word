@@ -108,10 +108,12 @@ const countGuessesRemaining = function (guess){
     } else {
         remainingGuessesNumber -= 1;
         message.innerText = `Sorry, the word has no ${guess}`;
-    }
-
+    };
+   
     if (remainingGuessesNumber === 0) {
         message.innerText = `Sorry, there are no guesses remaining. The word is ${word}.`;
+        span.innerText = `${remainingGuessesNumber} guesses`;
+        startOver();
     } else if (remainingGuessesNumber === 1) {
         span.innerText = `${remainingGuessesNumber} guess`;
     } else {
@@ -119,10 +121,37 @@ const countGuessesRemaining = function (guess){
     }
 };
 
+//not working
 const checkIfWin = function () {
-    if (wordProgress.innerText === word.toUpperCase()) {
+    if (word.toUpperCase() === wordProgress.innerText) {
         message.classList.add("win");
         message.innerHTML =  `<p class="highlight">You guessed correct the word! Congrats!</p>`;
+        
+        startOver();
     }
 
 };
+
+const startOver = function (){
+    guessButton.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    wordProgress.classList.add("hide");
+
+    playAgainButton.classList.remove("hide");
+};
+
+playAgainButton.addEventListener("click", function () {
+    message.classList.remove("win");
+    message.innerText = "";
+    wordProgress = [];
+    remainingGuessesNumber = 8;
+    guessedLetters = [];
+    span.innerText = `${remainingGuessesNumber} guesses`;
+
+    getWord();
+
+    guessButton.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    wordProgress.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+});
